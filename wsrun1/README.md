@@ -1,13 +1,10 @@
-# Greyhound IHP v1
+# gf180mcu FABulous FPGA
 
-This folder contains resources and examples to bring up [Greyhound v1](https://github.com/mole99/greyhound-ihp-v1).
+This folder contains resources and examples to bring up [gf180mcu FABulous FPGA](github.com/mole99/gf180mcu-fabulous-fpga).
 
-The following boards were used:
+The following board was used:
 
-- https://github.com/mole99/greyhound-main-pcb
-- https://github.com/mole99/greyhound-breakout-pcb
-
-Currently, only the FPGA of Greyhound v1 was tested.
+- https://github.com/mole99/waferspace-main-pcb
 
 Important Pins:
 

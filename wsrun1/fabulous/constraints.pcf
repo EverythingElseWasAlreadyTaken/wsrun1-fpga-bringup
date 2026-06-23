@@ -1,0 +1,91 @@
+# All I/Os
+
+# GPIOs
+
+set_io gpio[47] X0Y1/A
+set_io gpio[46] X0Y1/B
+set_io gpio[45] X0Y1/C
+set_io gpio[44] X0Y1/D
+set_io gpio[43] X0Y2/A
+set_io gpio[42] X0Y2/B
+set_io gpio[41] X0Y2/C
+set_io gpio[40] X0Y2/D
+set_io gpio[39] X0Y3/A
+set_io gpio[38] X0Y3/B
+set_io gpio[37] X0Y3/C
+set_io gpio[36] X0Y3/D
+set_io gpio[35] X0Y4/A
+set_io gpio[34] X0Y4/B
+set_io gpio[33] X0Y4/C
+set_io gpio[32] X0Y4/D
+set_io gpio[31] X0Y5/A
+set_io gpio[30] X0Y5/B
+set_io gpio[29] X0Y5/C
+set_io gpio[28] X0Y5/D
+set_io gpio[27] X0Y6/A
+set_io gpio[26] X0Y6/B
+set_io gpio[25] X0Y6/C
+set_io gpio[24] X0Y6/D
+set_io gpio[23] X0Y7/A
+set_io gpio[22] X0Y7/B
+set_io gpio[21] X0Y7/C
+set_io gpio[20] X0Y7/D
+set_io gpio[19] X0Y8/A
+set_io gpio[18] X0Y8/B
+set_io gpio[17] X0Y8/C
+set_io gpio[16] X0Y8/D
+set_io gpio[15] X0Y9/A
+set_io gpio[14] X0Y9/B
+set_io gpio[13] X0Y9/C
+set_io gpio[12] X0Y9/D
+set_io gpio[11] X0Y10/A
+set_io gpio[10] X0Y10/B
+set_io gpio[9] X0Y10/C
+set_io gpio[8] X0Y10/D
+set_io gpio[7] X0Y11/A
+set_io gpio[6] X0Y11/B
+set_io gpio[5] X0Y11/C
+set_io gpio[4] X0Y11/D
+set_io gpio[3] X0Y12/A
+set_io gpio[2] X0Y12/B
+set_io gpio[1] X0Y12/C
+set_io gpio[0] X0Y12/D
+
+# RGB0 and RGB1
+
+set_io rgb0_r X0Y9/A # gpio[15]
+set_io rgb0_g X0Y8/D # gpio[16]
+set_io rgb0_b X0Y9/B # gpio[14]
+
+set_io rgb1_r X0Y8/B # gpio[18]
+set_io rgb1_g X0Y8/A # gpio[19]
+set_io rgb1_b X0Y8/C # gpio[17]
+
+# Switches
+
+set_io sw0 X0Y12/B # gpio[2]
+set_io sw1 X0Y12/A # gpio[3]
+set_io sw2 X0Y11/D # gpio[4]
+set_io sw3 X0Y11/C # gpio[5]
+
+# TinyVGA - GPIO Bank 1
+
+set_io tinyvga_r[0] X0Y6/B   # gpio[26]
+set_io tinyvga_r[1] X0Y6/A   # gpio[27]
+set_io tinyvga_g[0] X0Y6/D   # gpio[24]
+set_io tinyvga_g[1] X0Y6/C   # gpio[25]
+set_io tinyvga_b[0] X0Y7/B   # gpio[22]
+set_io tinyvga_b[1] X0Y7/A   # gpio[23]
+set_io tinyvga_hs   X0Y7/D   # gpio[20]
+set_io tinyvga_vs   X0Y7/C   # gpio[21]
+
+# 1BitSquared 7 Segment Display - GPIO Bank 0
+
+set_io seg[0] X0Y9/D  # A - gpio[12]
+set_io seg[1] X0Y10/B # B - gpio[10]
+set_io seg[2] X0Y10/D # C - gpio[8]
+set_io seg[3] X0Y11/B # D - gpio[6]
+set_io seg[4] X0Y9/C  # E - gpio[13]
+set_io seg[5] X0Y10/A # F - gpio[11]
+set_io seg[6] X0Y10/C # G - gpio[9]
+set_io ca     X0Y11/A # select - gpio[7]

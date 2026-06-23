@@ -1,7 +1,6 @@
 # Adjust sources
-RTL = ../../top_wrapper.v rgb.v
-TOP = top_wrapper
-DESIGN_NAME = rgb
+RTL = rgb.v
+TOP = rgb
 
 # Include base Makefile
 include ../../makefile.include

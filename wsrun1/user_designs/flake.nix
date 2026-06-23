@@ -58,6 +58,18 @@
               ];
             };
           })
+          (final: prev: {
+            yosys = prev.yosys.overrideAttrs {
+              version = "2231c860";
+              src = prev.fetchGitHubSnapshot {
+                owner = "mole99";
+                repo = "yosys";
+                rev = "2231c860ec7afd8eef9ba97231c3a10950469e95";
+                hash = "sha256-OwLoMsdEmTvlrD7q7yU/rkLzX6h4GGB98OKzfRFFW/0=";
+                add-gitcommit = true;
+              };
+            };
+          })
         ];
       };
 
