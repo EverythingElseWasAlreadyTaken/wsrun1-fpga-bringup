@@ -1,4 +1,4 @@
-# Greyhound IHP Bringup
+# wafer.space FABulous FPGA Bringup
 
 This repository contains resources and examples to bring up the [gf180mcu FABulous FPGA](https://github.com/mole99/gf180mcu-fabulous-fpga) using the [waferspace-main-pcb](https://github.com/mole99/waferspace-main-pcb).
 
