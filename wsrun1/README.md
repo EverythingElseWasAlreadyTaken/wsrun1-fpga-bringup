@@ -26,15 +26,15 @@ Important Pins:
 
 ## Compiling Bitstreams
 
-First, install Nix.
+First, install Nix as described by librelane: https://librelane.readthedocs.io/en/stable/installation/nix_installation/index.html
 
 Then, under `user_designs/` run `nix-shell`. The first time, Nix will build Yosys and nextpnr.
 
-Afterwards run `make all` to build all bitstreams, or `make counter` to build individual ones.
+Afterwards run `make all` to build all bitstreams, or `make rgb` to build individual ones.
 
-You can copy the final bitstreams under `user_designs/designs/<example>/<example.bit>` to the `board/` directory.
+You can copy the final bitstreams under `user_designs/designs/<example>/<example.bit>` to the `board/bitstreams/` directory.
 
-To copy the directory structure under `board/` to the waferspace-main-pcb, run:
+To copy the directory structure under `board/bitstreams/` to the waferspace-main-pcb, run:
 
 ```
 python3 -m there mkdir bitstreams
@@ -46,6 +46,11 @@ After restarting the board `main.py` will automatically upload the default bitst
 
 ```
 upload_bitstream("bitstreams/rgb.bit")
+```
+
+You can alternatively run `main.py` using the commandline:
+```
+python3 -m there run board/main.py
 ```
 
 To view VGA output, plug a [Tiny VGA](https://github.com/mole99/tiny-vga) into one of the GPIO banks.

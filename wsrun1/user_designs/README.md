@@ -1,5 +1,17 @@
 ## User Designs
+| Name      | Description |
+|-----------|-------------|
+| `rgb` | Control rgb with buttons |
+| `rgb_off`  | Turn off rgb |
+| `rgb_on`   | Turn on rgb |
+| `rgb_pwm`   | Display a rgb light pattern using pwm |
+| `seven_seg`   | Display text on a seven segment display |
 
+To build user designs follow the instructions in wsrun1/user_designs/README.md.
+
+To create a custom user design, simply copy an example. If you decide to rename a verilog file, remember to also rename it in the Makefile
+
+## Test designs
 | Name      | Description |
 |-----------|-------------|
 | `all_zeros` | all outputs set to zero |
@@ -18,33 +30,4 @@
 | `serv` | [SERV](https://github.com/olofk/serv) in 4-bit configuration with CSRs enabled on servant, 4 kByte memory |
 | `fazyrv` | [FazyRV](https://github.com/meiniKi/FazyRV) in 1-bit configuration and default SoC, 4 kByte memory |
 
-To build individual user designs, go into one of the directories and run the commands:
-
-```
-Commands:
- synth           ... Synthesize the user design
- pnr             ... Run Place and Route
- bitstream       ... Generate the bitstream
- clean           ... Delete all generated files
- help            ... Show this help message
-```
-
-To build all of them, enable a nix shell:
-
-```
-nix shell nixpkgs#{yosys,nextpnr}
-```
-
-And run:
-
-```
-make build_all
-```
-
-To delete all generated files, run:
-
-```
-make clean_all
-```
-
-**Note:** To generate the bitstreams you need to `pip3 install fasm`.
+To build a test design, copy its folder into the designs directory.
