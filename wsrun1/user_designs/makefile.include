@@ -24,7 +24,7 @@ EXTRA_MLIBMAPS_PATH	 = -extra-mlibmap ../../memlib/ram_regfile.txt
 BIT_GEN 			?= ../../scripts/bit_gen.py
 BIT_TO_HEX 		?= ../../scripts/bit_to_hex.py
 
-all: synth pnr bitstream hex
+all: synth pnr bit hex
 
 synth:
 	yosys \
@@ -59,18 +59,23 @@ pnr:
 	--timing-allow-fail
 .PHONY: pnr
 
-bitstream:
+bit:
 	python3 $(BIT_GEN) \
 	-genBitstream \
 	$(TOP).fasm \
 	$(FABULOUS_ROOT)/bitStreamSpec.bin \
 	$(TOP).bit
-.PHONY: bitstream
+.PHONY: bit
 
 hex:
 	python3 $(BIT_TO_HEX) \
 	$(TOP).bit \
 	$(TOP).hex
+.PHONY: hex
+
+copy:
+	cp $(TOP).bit ../../../board/bitstreams/$(TOP).bit
+.PHONY: copy
 
 clean:
 	rm -rf $(TOP).json
@@ -89,8 +94,9 @@ help:
 	@echo "Commands:"
 	@echo " synth           ... Synthesize the user design"
 	@echo " pnr             ... Run Place and Route"
-	@echo " bitstream       ... Generate the bitstream"
+	@echo " bit             ... Generate the bitstream"
 	@echo " hex             ... Convert bitstream to hex"
+	@echo " copy            ... Copy bitstream to boards/ directory"
 	@echo " clean           ... Delete all generated files"
 	@echo " help            ... Show this help message"
 .phony: help
