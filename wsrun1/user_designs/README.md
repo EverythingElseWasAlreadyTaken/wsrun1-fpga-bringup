@@ -1,4 +1,5 @@
 ## User Designs
+
 | Name      | Description |
 |-----------|-------------|
 | `rgb` | Control rgb with buttons |
@@ -7,11 +8,54 @@
 | `rgb_pwm`   | Display a rgb light pattern using pwm |
 | `seven_seg`   | Display text on a seven segment display |
 
-To build user designs follow the instructions in wsrun1/user_designs/README.md.
+To build individual user designs, go into one of the directories and run the commands:
+
+```
+Commands:
+ synth           ... Synthesize the user design
+ pnr             ... Run Place and Route
+ bit             ... Generate the bitstream
+ hex             ... Convert bitstream to hex
+ copy            ... Copy bitstream to boards/ directory
+ clean           ... Delete all generated files
+ help            ... Show this help message
+```
+
+Or, inside this directory, prepend the design name:
+
+```
+Commands:
+ <design>-synth           ... Synthesize the user design
+ <design>-pnr             ... Run Place and Route
+ <design>-bit             ... Generate the bitstream
+ <design>-hex             ... Convert bitstream to hex
+ <design>-copy            ... Copy bitstream to boards/ directory
+ <design>-clean           ... Delete all generated files
+ <design>-help            ... Show this help message
+```
+
+To build all of them, simply run:
+
+```
+make all
+```
+
+To copy all generated bitstreams to the `boards/` directory, run:
+
+```
+make copy
+```
+
+To delete all generated files, run:
+
+```
+make clean
+```
 
 To create a custom user design, simply copy an example. If you decide to rename a verilog file, remember to also rename it in the Makefile
 
 ## Test designs
+
 | Name      | Description |
 |-----------|-------------|
 | `all_zeros` | all outputs set to zero |
@@ -30,4 +74,6 @@ To create a custom user design, simply copy an example. If you decide to rename 
 | `serv` | [SERV](https://github.com/olofk/serv) in 4-bit configuration with CSRs enabled on servant, 4 kByte memory |
 | `fazyrv` | [FazyRV](https://github.com/meiniKi/FazyRV) in 1-bit configuration and default SoC, 4 kByte memory |
 
-To build a test design, copy its folder into the designs directory.
+Test designs were used for simulations of the fabric, but can be a useful reference when making an actual user design to run on the FPGA board.
+
+To build a test design, copy its folder into the `designs/` directory.

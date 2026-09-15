@@ -1,6 +1,7 @@
 # Get the design names
 DESIGNS :=  $(patsubst designs/%/,%,$(wildcard designs/*/)) 
 
+DESIGNS_HELP := $(addsuffix -help,$(DESIGNS))
 DESIGNS_CLEAN := $(addsuffix -clean,$(DESIGNS))
 DESIGNS_SYNTH := $(addsuffix -synth,$(DESIGNS))
 DESIGNS_PNR := $(addsuffix -pnr,$(DESIGNS))
@@ -21,6 +22,10 @@ $(DESIGNS):
 	cd designs/$@; make
 .PHONY: $(DESIGNS)
 
+$(DESIGNS_HELP):
+	cd designs/$(subst -help,,$@); make help
+.PHONY: $(DESIGNS_HELP)
+
 $(DESIGNS_CLEAN):
 	cd designs/$(subst -clean,,$@); make clean
 .PHONY: $(DESIGNS_CLEAN)
@@ -30,17 +35,17 @@ $(DESIGNS_SYNTH):
 .PHONY: $(DESIGNS_SYNTH)
 
 $(DESIGNS_PNR):
-	cd designs/$(subst -synth,,$@); make pnr
+	cd designs/$(subst -pnr,,$@); make pnr
 .PHONY: $(DESIGNS_PNR)
 
 $(DESIGNS_BIT):
-	cd designs/$(subst -synth,,$@); make bitstream
+	cd designs/$(subst -bit,,$@); make bit
 .PHONY: $(DESIGNS_BIT)
 
 $(DESIGNS_HEX):
-	cd designs/$(subst -synth,,$@); make hex
+	cd designs/$(subst -hex,,$@); make hex
 .PHONY: $(DESIGNS_HEX)
 
 $(DESIGNS_COPY):
-	cp designs/$(subst -copy,,$@)/$(subst -copy,,$@).bit ../board/bitstreams/$(subst -copy,,$@).bit
+	cd designs/$(subst -copy,,$@); make copy
 .PHONY: $(DESIGNS_COPY)
