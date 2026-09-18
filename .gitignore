@@ -9,3 +9,4 @@
 *.vh
 *.vhd
 *.dot
+__pycache__

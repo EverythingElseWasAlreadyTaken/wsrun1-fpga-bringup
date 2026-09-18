@@ -5,7 +5,8 @@
 // placed at the fabric corners (see Makefile / clk_timing.pcf) so the route is
 // as long as possible. Both samples are XORed: 0 while timing holds, 1 once the
 // long path exceeds one clock period. Sweep the clock (clk.py) and watch:
-//   rgb0 red / pico0 : live XOR          rgb1 red / pico1 : sticky error (sw0 clears)
+//   rgb0 red / pico0 : live XOR          rgb1 red / pico1 : sticky error
+// The sticky error is cleared by sw0 or by pico5 (driven by the Pico, see utils.find_fmax).
 
 `default_nettype none
 
@@ -22,7 +23,8 @@ module clk_timing #(
     output wire rgb1_r, rgb1_g, rgb1_b,
 
     output wire pico0,
-    output wire pico1
+    output wire pico1,
+    input  wire pico5
 );
 
     wire clk;
@@ -48,7 +50,7 @@ module clk_timing #(
         s   <= t;           // short path
         l   <= c[STAGES];   // long path
         x   <= s ^ l;
-        err <= (rst | sw0) ? 1'b0 : (err | x);
+        err <= (rst | ~sw0 | pico5) ? 1'b0 : (err | x); // sw0 idles high, pressed = 0
     end
 
     // LEDs active low

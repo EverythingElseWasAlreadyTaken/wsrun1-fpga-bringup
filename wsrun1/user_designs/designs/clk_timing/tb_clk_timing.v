@@ -13,7 +13,7 @@ module LUT4 #(parameter [15:0] INIT = 0) (output O, input I0, I1, I2, I3);
 endmodule
 
 module tb_clk_timing;
-    reg sw0 = 0;
+    reg sw0 = 1, pico5 = 0; // sw0 idles high
     wire rgb0_r, rgb0_g, rgb0_b, rgb1_r, rgb1_g, rgb1_b, pico0, pico1;
     clk_timing #(.STAGES(8)) dut (.*);
 
@@ -29,8 +29,11 @@ module tb_clk_timing;
         force dut.l = 1'b1; // s toggles, so s^l hits 1 within two cycles
         repeat (4) @(posedge dut.clk); #1; release dut.l;
         if (pico1 !== 1) begin $display("FAIL: err not set"); $finish; end
-        sw0 = 1; @(posedge dut.clk); @(posedge dut.clk); #1;
+        sw0 = 0; @(posedge dut.clk); @(posedge dut.clk); #1; sw0 = 1;
         if (pico1 !== 0) begin $display("FAIL: sw0 did not clear err"); $finish; end
+        force dut.l = 1'b1; repeat (4) @(posedge dut.clk); #1; release dut.l;
+        pico5 = 1; @(posedge dut.clk); @(posedge dut.clk); #1; pico5 = 0;
+        if (pico1 !== 0) begin $display("FAIL: pico5 did not clear err"); $finish; end
         $display("PASS"); $finish;
     end
 endmodule

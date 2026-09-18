@@ -43,6 +43,38 @@ def watch_pins(pins=PICO_PINS):
         for n in pins:
             machine.Pin(n).irq(None)
 
+def find_fmax(bitstream, start, stop, step, dwell=1.0, err_pin=9, clr_pin=13):
+    """Upload a clk_timing bitstream, then raise the clock from start to stop Hz.
+    Per step: pulse the clear line (clr_pin -> FPGA pico5), wait dwell seconds,
+    check the sticky error (err_pin <- FPGA pico1, rising-edge IRQ).
+    Returns (last_pass_hz, fail_hz) as actual PWM frequencies; fail_hz is None
+    if the design never failed."""
+    upload_bitstream(bitstream, start)
+    err = machine.Pin(err_pin, machine.Pin.IN)
+    clr = machine.Pin(clr_pin, machine.Pin.OUT, value=0)
+    hit = [False]
+    err.irq(lambda p: hit.__setitem__(0, True), machine.Pin.IRQ_RISING)
+    last_pass, fail, prev = None, None, None
+    f = int(start)
+    try:
+        while f <= int(stop):
+            actual = set_clk(f)
+            if actual != prev:  # PWM is quantized: skip repeats
+                prev = actual
+                clr(1); time.sleep_ms(1); clr(0)
+                hit[0] = False
+                time.sleep(dwell)
+                if hit[0] or err.value():
+                    fail = actual
+                    break
+                last_pass = actual
+            f += int(step)
+    finally:
+        err.irq(None)
+        clr.init(machine.Pin.IN)
+    print(f"RESULT last_pass={last_pass} fail={fail}")
+    return last_pass, fail
+
 def upload_bitstream(bitstream, freq=10_000_000):
 
     print(f"machine freq: {machine.freq()}")

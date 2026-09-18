@@ -9,8 +9,10 @@ PCF_CONSTRAINTS = $(abspath clk_timing.pcf)
 # Include base Makefile
 include ../../makefile.include
 
-clk_timing.pcf: place_chain.py ../../../fabulous/constraints.pcf
+# always regenerated: STAGES/SEED are make variables, not file dependencies
+clk_timing.pcf: FORCE
 	cat ../../../fabulous/constraints.pcf > $@
-	python3 place_chain.py $(STAGES) >> $@
+	python3 place_chain.py $(STAGES) $(SEED) >> $@
+FORCE:
 
 pnr: clk_timing.pcf

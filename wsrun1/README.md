@@ -83,6 +83,21 @@ slow blink on `pico0`/`pico1`):
 python3 -m there -c "from utils import watch_pins; watch_pins((8, 9))" --command-timeout 3600
 ```
 
+### Automated timing sweep
+
+`timing_sweep.py` builds `clk_timing` with randomly placed LUT4 chains (one per seed),
+records nextpnr's post-route max frequency, uploads each bitstream and raises the clock
+until the sticky error fires (`utils.find_fmax`, err on Pico GPIO9, cleared per step via
+GPIO13 -> `pico5`). Results go to `results/timing_<timestamp>.csv`:
+
+```
+./timing_sweep.py --seeds 1-10 --stages 8,16,32 --start 200k --stop 20M --step 100k --dwell 1
+make -C user_designs/designs/clk_timing SEED=3 STAGES=32   # rebuild one variant by hand
+```
+
+Columns: seed, stages, nextpnr_fmax_mhz, last_pass_hz, fail_hz, measured_fmax_mhz (= fail
+frequency, or the last passing one if it never failed). Frequencies are the actual PWM values.
+
 The clock is a PWM on the Pico, so only frequencies of 125 MHz / integer are possible
 (e.g. 10 MHz becomes 10.4 or 9.6 MHz; above ~10 MHz the gaps are >1 MHz). `set_clk`
 prints the actual frequency — trust that, not the requested value.
