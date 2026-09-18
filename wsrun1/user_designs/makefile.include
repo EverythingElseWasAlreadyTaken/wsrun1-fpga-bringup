@@ -25,6 +25,8 @@ EXTRA_MAPS_PATH		 = -extra-map ../../techmap/ff_map.v \
 EXTRA_MLIBMAPS_PATH	 = -extra-mlibmap ../../memlib/ram_regfile.txt
 
 BIT_GEN 			?= ../../scripts/bit_gen.py
+FREQ			?= 1_000_000
+THERE			?= there $(THERE_ARGS)
 BIT_TO_HEX 		?= ../../scripts/bit_to_hex.py
 
 all: synth pnr bit hex
@@ -82,6 +84,11 @@ copy:
 	cp $(TOP).bit ../../../board/bitstreams/$(TOP).bit
 .PHONY: copy
 
+run: copy
+	$(THERE) push $(TOP).bit /bitstreams/
+	$(THERE) -c "from utils import upload_bitstream; upload_bitstream('bitstreams/$(TOP).bit', $(FREQ))" --command-timeout 30
+.PHONY: run
+
 clean:
 	rm -rf $(TOP).json
 	rm -rf $(TOP)_out.json
@@ -102,6 +109,7 @@ help:
 	@echo " bit             ... Generate the bitstream"
 	@echo " hex             ... Convert bitstream to hex"
 	@echo " copy            ... Copy bitstream to boards/ directory"
+	@echo " run             ... Push bitstream to the board via there and run it (FREQ=$(FREQ))"
 	@echo " clean           ... Delete all generated files"
 	@echo " help            ... Show this help message"
 .phony: help

@@ -24,13 +24,13 @@ module up_down_counter #(
 	      if (en) begin
 	          if (dir == 1'b0) begin
               count <= count + 1;
-              
+
     	          if (count == (2**WIDTH)-2) begin
                 dir <= 1'b1;
               end
 	          end else begin
               count <= count - 1;
-              
+
               if (count == 1) begin
                 dir <= 1'b0;
               end
@@ -38,7 +38,7 @@ module up_down_counter #(
 	      end
 	    end
 	  end
-	  
+
 	  assign out = count;
 endmodule
 
@@ -48,7 +48,7 @@ module rgb_pwm (
     input wire sw1,
     input wire sw2,
     input wire sw3,
-  
+
     // RGB0
     output wire rgb0_r,
     output wire rgb0_g,

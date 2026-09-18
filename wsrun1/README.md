@@ -53,4 +53,29 @@ You can alternatively run `main.py` using the commandline:
 python3 -m there run board/main.py
 ```
 
+To change the FPGA clock while a bitstream is running (via `board/utils.py`):
+
+```
+./clk.py 5M                 # set 5 MHz
+./clk.py 1M 10M 500k 2      # sweep 1 -> 10 MHz, 500 kHz steps, 2 s each
+```
+
+The same via `there` directly (push `board/utils.py` to the board first):
+
+```
+python3 -m there -c "from utils import set_clk; set_clk(5_000_000)"
+python3 -m there -c "from utils import sweep_clk; sweep_clk(1e6, 10e6, 500e3, 2)" --command-timeout 60
+python3 -m there -i                # REPL: from utils import set_clk; set_clk(3_000_000)
+```
+
+To pick the clock when uploading a bitstream, pass it to `upload_bitstream`:
+
+```
+python3 -m there -c "from utils import upload_bitstream; upload_bitstream('bitstreams/st7735_bounce.bit', 5_000_000)"
+```
+
+The clock is a PWM on the Pico, so only frequencies of 125 MHz / integer are possible
+(e.g. 10 MHz becomes 10.4 or 9.6 MHz; above ~10 MHz the gaps are >1 MHz). `set_clk`
+prints the actual frequency — trust that, not the requested value.
+
 To view VGA output, plug a [Tiny VGA](https://github.com/mole99/tiny-vga) into one of the GPIO banks.

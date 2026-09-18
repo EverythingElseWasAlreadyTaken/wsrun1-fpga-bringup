@@ -8,6 +8,7 @@ DESIGNS_PNR := $(addsuffix -pnr,$(DESIGNS))
 DESIGNS_BIT := $(addsuffix -bit,$(DESIGNS))
 DESIGNS_HEX := $(addsuffix -hex,$(DESIGNS))
 DESIGNS_COPY := $(addsuffix -copy,$(DESIGNS))
+DESIGNS_RUN := $(addsuffix -run,$(DESIGNS))
 
 all: $(DESIGNS)
 .PHONY: all
@@ -49,3 +50,7 @@ $(DESIGNS_HEX):
 $(DESIGNS_COPY):
 	cd designs/$(subst -copy,,$@); make copy
 .PHONY: $(DESIGNS_COPY)
+
+$(DESIGNS_RUN):
+	cd designs/$(subst -run,,$@); make run
+.PHONY: $(DESIGNS_RUN)

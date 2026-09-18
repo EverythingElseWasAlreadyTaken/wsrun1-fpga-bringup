@@ -6,6 +6,7 @@
 | `rgb_off`  | Turn off rgb |
 | `rgb_on`   | Turn on rgb |
 | `rgb_pwm`   | Display a rgb light pattern using pwm |
+| `rgb_blink` | rgb0 blinks, rgb1 blinks 100x slower — for clock sweep tests (`./clk.py`) |
 | `seven_seg`   | Display text on a seven segment display |
 
 To build individual user designs, go into one of the directories and run the commands:
@@ -17,6 +18,7 @@ Commands:
  bit             ... Generate the bitstream
  hex             ... Convert bitstream to hex
  copy            ... Copy bitstream to boards/ directory
+ run             ... Push bitstream to the board via there and run it (FREQ=1_000_000)
  clean           ... Delete all generated files
  help            ... Show this help message
 ```

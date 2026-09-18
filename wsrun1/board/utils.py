@@ -2,12 +2,28 @@ import os
 import time
 import machine
 
+def set_clk(freq):
+    """Set FPGA clock (PWM on GPIO0) to freq Hz; bitstream keeps running."""
+    pwm = machine.PWM(machine.Pin(0, machine.Pin.OUT), freq=int(freq), duty_u16=32768) # 50% duty
+    print(f"fpga clock: {pwm.freq()}")
+    return pwm.freq()
+
+def sweep_clk(start, stop, step, dwell):
+    """Step FPGA clock from start to stop Hz by step Hz, holding each for dwell seconds."""
+    start, stop, step = int(start), int(stop), int(step)
+    if step == 0 or (stop - start) * step < 0:
+        raise ValueError("step must be non-zero and point from start to stop")
+    f = start
+    while (f <= stop) if step > 0 else (f >= stop):
+        set_clk(f)
+        time.sleep(dwell)
+        f += step
+
 def upload_bitstream(bitstream, freq=10_000_000):
 
     print(f"machine freq: {machine.freq()}")
 
     # Setup
-    clock   = machine.Pin(0, machine.Pin.OUT)
     reset_n = machine.Pin(1, machine.Pin.OUT)
 
     # SPI
@@ -30,7 +46,7 @@ def upload_bitstream(bitstream, freq=10_000_000):
 
     fpga_mode = machine.Pin(2, machine.Pin.OUT)
     fpga_mode(1) # Passive SPI mode
-    
+
     fpga_busy = machine.Pin(3, machine.Pin.IN)
 
     print(f"fpga_mode: {fpga_mode.value()}")
@@ -43,10 +59,9 @@ def upload_bitstream(bitstream, freq=10_000_000):
     fpga_pad_43 = machine.Pin(12, machine.Pin.IN)
     fpga_pad_42 = machine.Pin(13, machine.Pin.IN)
 
-    print(f"Starting the clock!")
-    
-    pwm0 = machine.PWM(clock, freq=10_000_000, duty_u16=32768) # 50% duty
-    print(f"fpga clock: {pwm0.freq()}")
+    print(f"Starting the 10MHz clock for bitstream write!")
+
+    set_clk(10_000_000)
 
     print(f"Reset!")
 
@@ -63,12 +78,12 @@ def upload_bitstream(bitstream, freq=10_000_000):
                     spi_master.write(data)
                 finally:
                     cs(active_low)
-                
+
                 # Next word
                 data = f.read(4)
 
     print(f"Writing the bitstream {bitstream} !")
     write_bitstream_spi(bitstream, fpga_spi, fpga_cs_n)
-    
-    pwm0 = machine.PWM(clock, freq=freq, duty_u16=32768) # 50% duty
-    print(f"fpga clock: {pwm0.freq()}")
+
+    print(f"Set desing clk to {freq} !")
+    set_clk(freq)
