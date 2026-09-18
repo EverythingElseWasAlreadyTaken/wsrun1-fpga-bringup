@@ -74,6 +74,15 @@ To pick the clock when uploading a bitstream, pass it to `upload_bitstream`:
 python3 -m there -c "from utils import upload_bitstream; upload_bitstream('bitstreams/st7735_bounce.bit', 5_000_000)"
 ```
 
+FPGA `gpio[47..42]` are wired directly to Pico GPIO8..13 (pcf names `pico0..pico5`).
+`watch_pins()` prints every edge with a timestamp and the time since the last edge, so a
+design can report its state / actual clock to the console (`rgb_blink` outputs its fast and
+slow blink on `pico0`/`pico1`):
+
+```
+python3 -m there -c "from utils import watch_pins; watch_pins((8, 9))" --command-timeout 3600
+```
+
 The clock is a PWM on the Pico, so only frequencies of 125 MHz / integer are possible
 (e.g. 10 MHz becomes 10.4 or 9.6 MHz; above ~10 MHz the gaps are >1 MHz). `set_clk`
 prints the actual frequency — trust that, not the requested value.

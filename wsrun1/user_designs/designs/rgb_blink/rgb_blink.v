@@ -2,6 +2,7 @@
 //
 // Clock-sweep test: rgb0 (green) toggles every 2**FAST_BIT clocks,
 // rgb1 (green) toggles exactly 100x slower. At 1 MHz: ~7.6 Hz / ~0.076 Hz blink.
+// Both signals also go to the Pico (pico0/pico1) so watch_pins() can time them.
 
 `default_nettype none
 
@@ -16,7 +17,11 @@ module rgb_blink #(
     // RGB1
     output wire rgb1_r,
     output wire rgb1_g,
-    output wire rgb1_b
+    output wire rgb1_b,
+
+    // To the Pico (GPIO8 / GPIO9), for utils.watch_pins()
+    output wire pico0,
+    output wire pico1
 );
 
     wire clk;
@@ -61,5 +66,8 @@ module rgb_blink #(
     assign rgb1_r = ~slow;
     assign rgb1_g = 1'b1;
     assign rgb1_b = 1'b1;
+
+    assign pico0 = cnt[FAST_BIT];
+    assign pico1 = slow;
 
 endmodule

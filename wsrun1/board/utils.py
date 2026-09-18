@@ -19,6 +19,30 @@ def sweep_clk(start, stop, step, dwell):
         time.sleep(dwell)
         f += step
 
+# FPGA gpio[47..42] are wired to Pico GPIO8..13 (pcf names pico0..pico5)
+PICO_PINS = (8, 9, 10, 11, 12, 13)
+
+def watch_pins(pins=PICO_PINS):
+    """Print every edge on the FPGA->Pico lines with a timestamp and the delta
+    since the previous edge on that pin (us). Ctrl-C to stop.
+    ponytail: print() in the IRQ; fine up to a few hundred Hz per pin."""
+    last = {}
+    def edge(n, pin):
+        now = time.ticks_us()
+        dt = time.ticks_diff(now, last.get(n, now))
+        last[n] = now
+        print(f"{now:12d} us  GPIO{n} = {pin.value()}  (+{dt} us)")
+    for n in pins:
+        machine.Pin(n, machine.Pin.IN).irq(lambda pin, n=n: edge(n, pin),
+                                           machine.Pin.IRQ_RISING | machine.Pin.IRQ_FALLING)
+    print(f"watching GPIO {pins} (Ctrl-C to stop)")
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        for n in pins:
+            machine.Pin(n).irq(None)
+
 def upload_bitstream(bitstream, freq=10_000_000):
 
     print(f"machine freq: {machine.freq()}")

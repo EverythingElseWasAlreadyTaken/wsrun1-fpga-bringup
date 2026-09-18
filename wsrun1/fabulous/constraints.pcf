@@ -111,3 +111,11 @@ set_io tft2_dc   X0Y3/A # gpio[39]
 set_io tft2_rst  X0Y3/C # gpio[37]
 set_io tft2_cs   X0Y4/A # gpio[35]
 
+
+# FPGA -> RPi Pico direct lines (Pico GPIO8..13 = gpio[47..42]), for pin watching
+set_io pico0 X0Y1/A # gpio[47] -> Pico GPIO8
+set_io pico1 X0Y1/B # gpio[46] -> Pico GPIO9
+set_io pico2 X0Y1/C # gpio[45] -> Pico GPIO10
+set_io pico3 X0Y1/D # gpio[44] -> Pico GPIO11
+set_io pico4 X0Y2/A # gpio[43] -> Pico GPIO12
+set_io pico5 X0Y2/B # gpio[42] -> Pico GPIO13
