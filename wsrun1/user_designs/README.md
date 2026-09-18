@@ -7,6 +7,7 @@
 | `rgb_on`   | Turn on rgb |
 | `rgb_pwm`   | Display a rgb light pattern using pwm |
 | `rgb_blink` | rgb0 blinks, rgb1 blinks 100x slower — for clock sweep tests (`./clk.py`) |
+| `clk_timing` | Short vs. long (corner-placed LUT chain) path XOR — sweep the clock to find where timing fails (`STAGES=n`) |
 | `seven_seg`   | Display text on a seven segment display |
 
 To build individual user designs, go into one of the directories and run the commands:

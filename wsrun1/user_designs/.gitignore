@@ -1,3 +1,4 @@
 *.json
 *.fasm
 *_log.txt
+designs/clk_timing/clk_timing.pcf

@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="560" viewBox="0 0 1040 560" font-family="monospace" font-size="13">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#222"/>
+    </marker>
+    <style>
+      .w{stroke:#222;stroke-width:1.6;fill:none;marker-end:url(#arr)}
+      .wn{stroke:#222;stroke-width:1.6;fill:none}
+      .clk{stroke:#1a6fd1;stroke-width:1.4;fill:none;stroke-dasharray:5 4}
+      .box{fill:#fff;stroke:#222;stroke-width:1.6}
+      .lut{fill:#fff3d6;stroke:#b36b00;stroke-width:1.4}
+      .ff{fill:#e8f1ff;stroke:#1a6fd1;stroke-width:1.6}
+      .io{fill:#e9f7e9;stroke:#2c8a2c;stroke-width:1.4}
+      .lbl{fill:#222}
+      .sm{fill:#555;font-size:11px}
+      .t{font-size:15px;font-weight:bold}
+    </style>
+  </defs>
+  <rect width="1040" height="560" fill="#fff"/>
+  <text x="20" y="28" class="t">clk_timing — short vs. long path timing test</text>
+  <text x="20" y="46" class="sm">FPGA clock = PWM from Pico GPIO0 (set_clk / sweep_clk). x = 1 once the long path exceeds one clock period.</text>
+
+  <text x="20" y="110" class="lbl" fill="#1a6fd1">clk</text>
+  <path class="clk" d="M50,106 H960"/>
+
+  <rect x="80" y="180" width="70" height="60" class="ff"/>
+  <text x="90" y="200" class="lbl">DFF</text>
+  <text x="90" y="222" class="lbl">t</text>
+  <path class="clk" d="M115,106 V180"/>
+  <path class="wn" d="M150,210 H175 V260 H60 V210 H80"/>
+  <circle cx="80" cy="210" r="4" fill="#fff" stroke="#222" stroke-width="1.4"/>
+  <text x="95" y="275" class="sm">D = ~Q  → t = clk/2</text>
+  <path class="w" d="M175,210 H240"/>
+  <circle cx="200" cy="210" r="3" fill="#222"/>
+
+  <path class="wn" d="M200,210 V330 H320"/>
+  <path class="w" d="M320,330 H360"/>
+  <text x="225" y="345" class="sm">short path</text>
+  <rect x="360" y="300" width="70" height="60" class="ff"/>
+  <text x="370" y="320" class="lbl">DFF</text>
+  <text x="370" y="342" class="lbl">s</text>
+  <path class="clk" d="M395,106 V300"/>
+
+  <text x="225" y="186" class="sm">long path: STAGES × LUT4 (INIT=AAAA, O=I0)</text>
+  <rect x="240" y="200" width="40" height="26" class="lut"/><text x="246" y="217" class="sm">X1Y1</text>
+  <path class="w" d="M280,213 H300"/>
+  <rect x="300" y="200" width="46" height="26" class="lut"/><text x="303" y="217" class="sm">X7Y12</text>
+  <path class="w" d="M346,213 H366"/>
+  <rect x="366" y="200" width="40" height="26" class="lut"/><text x="372" y="217" class="sm">X7Y1</text>
+  <path class="w" d="M406,213 H426"/>
+  <rect x="426" y="200" width="46" height="26" class="lut"/><text x="429" y="217" class="sm">X1Y12</text>
+  <text x="482" y="217" class="lbl">…</text>
+  <path class="w" d="M500,213 H520"/>
+  <rect x="520" y="200" width="46" height="26" class="lut"/><text x="523" y="217" class="sm">X1Y12</text>
+  <text x="240" y="262" class="sm">each hop crosses the whole fabric (set_cell in clk_timing.pcf)</text>
+
+  <path class="w" d="M566,213 H600"/>
+  <rect x="600" y="183" width="70" height="60" class="ff"/>
+  <text x="610" y="203" class="lbl">DFF</text>
+  <text x="610" y="225" class="lbl">l</text>
+  <path class="clk" d="M635,106 V183"/>
+
+  <path class="wn" d="M670,213 H700 V262 H720"/>
+  <path class="wn" d="M430,330 H700 V282 H720"/>
+  <path class="box" d="M715,250 q12,22 0,44 q35,0 48,-22 q-13,-22 -48,-22 z"/>
+  <path class="wn" d="M709,250 q12,22 0,44"/>
+  <text x="726" y="277" class="lbl">=1</text>
+  <text x="712" y="308" class="sm">s ^ l</text>
+
+  <path class="w" d="M763,272 H790"/>
+  <rect x="790" y="242" width="60" height="60" class="ff"/>
+  <text x="798" y="262" class="lbl">DFF</text>
+  <text x="798" y="284" class="lbl">x</text>
+  <path class="clk" d="M820,106 V242"/>
+
+  <path class="w" d="M850,272 H900"/>
+  <rect x="900" y="258" width="100" height="28" class="io"/>
+  <text x="906" y="276" class="sm">rgb0_r / pico0</text>
+  <text x="855" y="296" class="sm">live XOR</text>
+
+  <circle cx="875" cy="272" r="3" fill="#222"/>
+  <path class="wn" d="M875,272 V380 H700 V400"/>
+  <rect x="660" y="400" width="80" height="34" class="box"/>
+  <text x="668" y="422" class="lbl">err |= x</text>
+  <text x="590" y="422" class="sm">sticky</text>
+  <path class="w" d="M740,417 H790"/>
+  <rect x="790" y="387" width="60" height="60" class="ff"/>
+  <text x="798" y="407" class="lbl">DFF</text>
+  <text x="798" y="429" class="lbl">err</text>
+  <path class="clk" d="M820,302 V387"/>
+  <path class="w" d="M850,417 H900"/>
+  <rect x="900" y="403" width="100" height="28" class="io"/>
+  <text x="906" y="421" class="sm">rgb1_r / pico1</text>
+
+  <rect x="520" y="445" width="110" height="26" class="io"/>
+  <text x="526" y="462" class="sm">sw0 | reset</text>
+  <path class="w" d="M630,458 H700 V434"/>
+  <text x="640" y="452" class="sm">clear</text>
+
+  <text x="20" y="520" class="sm">Timing holds: s and l sample the same t → x = 0.   Long path &gt; T: l lags one cycle, t alternates every cycle → l = ~s → x = 1 (steady).</text>
+  <text x="20" y="538" class="sm">Sweep with ./clk.py and watch pico0/pico1 via watch_pins() or the LEDs; STAGES=n at build time changes the long-path length.</text>
+</svg>
