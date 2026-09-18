@@ -13,3 +13,6 @@ time.sleep(2)
 
 #machine.freq(100_000_000)
 #upload_bitstream("bitstreams/vga_test.bit", 10_000)
+
+# LCD display example
+#upload_bitstream(bitstreams/st7735_bounce.bit, 5_000_000)
