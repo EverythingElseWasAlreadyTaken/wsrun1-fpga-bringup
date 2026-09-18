@@ -89,3 +89,25 @@ set_io seg[4] X0Y9/C  # E - gpio[13]
 set_io seg[5] X0Y10/A # F - gpio[11]
 set_io seg[6] X0Y10/C # G - gpio[9]
 set_io ca     X0Y11/A # select - gpio[7]
+
+# ST7735 SPI display - GPIO Bank 1
+# Display handwired
+
+set_io tft_sclk X0Y6/A # gpio[27]
+set_io tft_mosi X0Y6/B # gpio[26]
+set_io tft_cs   X0Y6/C # gpio[25]
+set_io tft_dc   X0Y6/D # gpio[24]
+set_io tft_rst  X0Y7/A # gpio[23]
+
+# ST7735 SPI display PMOD
+# bank 3 header gpio[34:41]
+# Wired for the PMOD was built for it.
+# Note this is NOT the same pin order as bank 1 above!
+
+set_io tft2_mosi X0Y2/C # gpio[41]
+set_io tft2_sclk  X0Y2/D # gpio[40]
+set_io tft2_dc   X0Y3/A # gpio[39]
+
+set_io tft2_rst  X0Y3/C # gpio[37]
+set_io tft2_cs   X0Y4/A # gpio[35]
+
