@@ -25,6 +25,7 @@ EXTRA_MAPS_PATH		 = -extra-map ../../techmap/ff_map.v \
 EXTRA_MLIBMAPS_PATH	 = -extra-mlibmap ../../memlib/ram_regfile.txt
 
 BIT_GEN 			?= ../../scripts/bit_gen.py
+NEXTPNR_SEED		?= 43
 FREQ			?= 1_000_000
 THERE			?= there $(THERE_ARGS)
 BIT_TO_HEX 		?= ../../scripts/bit_to_hex.py
@@ -56,7 +57,7 @@ pnr:
 	FAB_ROOT=$(FABULOUS_ROOT) \
 	nextpnr-generic \
 	--uarch fabulous \
-	--seed 43 \
+	--seed $(NEXTPNR_SEED) \
 	--json $(TOP).json \
 	--write $(TOP)_out.json \
 	-o fasm=$(TOP).fasm \
